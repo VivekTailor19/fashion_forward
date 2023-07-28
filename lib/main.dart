@@ -6,6 +6,7 @@ import 'package:sizer/sizer.dart';
 
 import 'firebase_options.dart';
 
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
