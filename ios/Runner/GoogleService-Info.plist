@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>988696334661-htk2hd4m0vlq7d3g7tjtnqvcp48g8elj.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.988696334661-htk2hd4m0vlq7d3g7tjtnqvcp48g8elj</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>988696334661-g12cqdofm4memrbrp13njs5n8g43tv0h.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAHd72TwJ7hvQpi3H80vQulAkTvDhe7GIc</string>
+	<key>GCM_SENDER_ID</key>
+	<string>988696334661</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.example.fashionForward</string>
+	<key>PROJECT_ID</key>
+	<string>ecommerceapp-9a4a7</string>
+	<key>STORAGE_BUCKET</key>
+	<string>ecommerceapp-9a4a7.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:988696334661:ios:61c1e90796cf69d3956e2c</string>
+</dict>
+</plist>
