@@ -28,7 +28,9 @@ class _ViewProductScreenState extends State<ViewProductScreen> {
         backgroundColor: Colors.white,
 
         appBar: AppBar(backgroundColor: Colors.white,elevation: 0,
-          leading: IconButton(icon: Icon(Icons.arrow_back_rounded,size: 22.sp,color: Colors.black,),onPressed: (){},),
+          leading: IconButton(icon: Icon(Icons.arrow_back_rounded,size: 22.sp,color: Colors.black,),onPressed: (){
+            Get.back();
+          },),
 
           actions: [
             IconButton(icon: Icon(Icons.card_travel_rounded,size: 22.sp,color: Colors.black,),onPressed: (){},),

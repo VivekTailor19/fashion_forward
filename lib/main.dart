@@ -9,6 +9,7 @@ import 'firebase_options.dart';
 import 'screens/03 login/signInScreen.dart';
 import 'screens/03 login/signUpScreen.dart';
 import 'screens/03 login/successScreen.dart';
+import 'screens/04 first/bottomOptionScreens/2 cart/myCartScreen.dart';
 import 'screens/04 first/first/firstScreen.dart';
 
 Future<void> main() async {
@@ -21,12 +22,14 @@ Future<void> main() async {
       builder: (context, orientation, deviceType) =>  GetMaterialApp(
         debugShowCheckedModeBanner: false,
         routes:{
-          "/":(p0) => SplashScreen(),
+          // "/":(p0) => SplashScreen(),
+          "/":(p0) => FirstScreen(),
           "/signIn":(p0) => SignInScreen(),
           "/signUp":(p0) => SignUpScreen(),
           "/successLogin":(p0) => Success_LoginScreen(),
           "/first":(p0) => FirstScreen(),
           "/viewProduct":(p0) => ViewProductScreen(),
+          "/myCart":(p0) => MyCartScreen()
 
         },
       ),
@@ -39,8 +42,11 @@ Future<void> main() async {
 
 
 product add in  list with category,
-view product
+view product ui complete -----------------------  live data remaining
 add to card with number how much
+notification add
+profile screen ui with logout facility
 
 
+database all product cart take as one -----  as change the model classs new variable of cart.
  */

@@ -21,8 +21,6 @@ class _FirstScreenState extends State<FirstScreen> {
     return SafeArea(
       child: Scaffold(
 
-
-
         body: Obx(()=> f_control.bottomSelectScreens[f_control.bottomIndex.value]),
 
         bottomNavigationBar: Obx( () =>  BottomNavigationBar(
@@ -41,7 +39,7 @@ class _FirstScreenState extends State<FirstScreen> {
               selectedFontSize: 12.sp,
               items: [
                 BottomNavigationBarItem(icon: Icon(Icons.home),label: "Home"),
-                BottomNavigationBarItem(icon: Icon(Icons.shopping_cart),label: "Order"),
+                BottomNavigationBarItem(icon: Icon(Icons.shopping_cart),label: "Cart"),
                 BottomNavigationBarItem(icon: Icon(Icons.notifications_active_outlined),label: "Notification"),
                 BottomNavigationBarItem(icon: Icon(Icons.person_3_rounded),label: "Profile"),
               ],
