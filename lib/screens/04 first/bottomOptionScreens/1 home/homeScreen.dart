@@ -34,7 +34,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   CircleAvatar(
                     radius: 2.5.h,
                     backgroundImage:
-                        AssetImage("assets/images/splash/splash.jpg"),
+                        NetworkImage("https://miro.medium.com/v2/resize:fit:512/1*DubdXbUR4KcrzmAg8wyGXA.png"),
                   )
                 ],
               ),
