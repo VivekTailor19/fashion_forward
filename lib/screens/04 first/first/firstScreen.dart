@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../utils/firebase_helper.dart';
 import 'firstController.dart';
 
 
@@ -13,6 +14,15 @@ class FirstScreen extends StatefulWidget {
 }
 
 class _FirstScreenState extends State<FirstScreen> {
+
+  Map mapData = {};
+  @override
+  void initState() {
+    super.initState();
+    mapData = FirebaseHelper.firebaseHelper.readUser();
+
+    FirebaseHelper.firebaseHelper.uniqueId = mapData['uniqueId'];
+  }
 
   FirstController f_control = Get.put(FirstController());
 

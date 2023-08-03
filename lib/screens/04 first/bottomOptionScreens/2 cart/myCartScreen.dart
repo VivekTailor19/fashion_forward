@@ -43,7 +43,7 @@ class _MyCartScreenState extends State<MyCartScreen> {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("My Cart",style: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.w700),),
+                  Text("My Order",style: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.w700),),
                   SizedBox(height: 1.h,),
 
                   Container(

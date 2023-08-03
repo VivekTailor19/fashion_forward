@@ -1,9 +1,10 @@
-import 'package:fashion_forward/screens/04%20first/bottomOptionScreens/2%20cart/sub_screens/cartController.dart';
-import 'package:fashion_forward/screens/04%20first/bottomOptionScreens/2%20cart/sub_screens/completed_Order.dart';
-import 'package:fashion_forward/screens/04%20first/bottomOptionScreens/2%20cart/sub_screens/ongoing_Order.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
+
+import '../../../../model/productModel.dart';
+import '../../../../utils/firebase_helper.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -14,95 +15,98 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
 
-  CartController c_control = Get.put(CartController());
+
+
 
   @override
   Widget build(BuildContext context) {
     return
-       Column(
+      Column(
         children: [
+         SizedBox(height: 5.h,),
+
           Padding(
-            padding:  EdgeInsets.symmetric(horizontal: 2.w,),
-            child: Row(mainAxisAlignment: MainAxisAlignment.end,
-
-              children: [
-
-                IconButton(onPressed: () {
-                  Get.toNamed("/myCart");
-                },
-                  icon:Icon(
-                    Icons.shopping_cart_checkout_rounded,
-                    color: Colors.blue,
-                    size: 20.sp,
-                  ),),
-
-
-              ],
-            ),
-          ),
-          Padding(
-            padding:  EdgeInsets.symmetric(horizontal: 5.w,vertical: 2.h),
+            padding:  EdgeInsets.symmetric(horizontal: 5.w,vertical: 1.h),
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-
-                SizedBox(
-                  height: 1.h,
-                ),
-                Row(
-                  children: [
-                    Text("My Order",style: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.w700),),
-                     Spacer(),
-                    GestureDetector(
-                      onTap: () {
-                        c_control.selOrderTypeIndex.value = 0;
-                      },
-                      child: Obx(
-                        () =>  Container(height: 4.h,width: 22.w,alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(2.w),
-                            color: c_control.selOrderTypeIndex.value == 0 ? Colors.black : Colors.white,
-                            border: Border.all(color: Colors.black12,width: 0.3)
-                           ),
-
-                          child:Text("Ongoing",style: TextStyle(fontSize: 12,
-                              color: c_control.selOrderTypeIndex.value == 0 ? Colors.white : Colors.black26,
-                              fontWeight: FontWeight.w500),),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 2.w,),
-                    GestureDetector(
-                      onTap: () {
-                        c_control.selOrderTypeIndex.value = 1;
-                      },
-                      child: Obx(
-                        () =>  Container(height: 4.h,width: 22.w,alignment: Alignment.center,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(2.w),
-                            color: c_control.selOrderTypeIndex.value == 1 ? Colors.black : Colors.white,
-                            border: Border.all(color: Colors.black12,width: 0.3)
-                           ),
-
-                          child:Text("Completed",style: TextStyle(fontSize: 12,
-                              color: c_control.selOrderTypeIndex.value == 1 ? Colors.white : Colors.black26,
-                              fontWeight: FontWeight.w500),),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                Text("My Cart",style: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.w700),),
                 SizedBox(height: 1.h,),
 
-                Obx(
-                  () =>  c_control.selOrderTypeIndex.value == 0
-                      ? OngoingScreen()
-                      : CompletedScreen(),
+                StreamBuilder(
+                    stream: FirebaseHelper.firebaseHelper.readCartItems(),
+                    builder: (context, snapshot) {
+                      if(snapshot.hasError)
+                      {
+                        Center(child: Text("${snapshot.error}"));
+                      }
+
+                      else if(snapshot.hasData)
+                      {
+                        QuerySnapshot querySnapshot = snapshot.data!;
+                        List<QueryDocumentSnapshot> qList = querySnapshot.docs;
+
+                        Map mapDATA = {};
+                        List<ProductModel> cartItems = [];
+
+                        for(var temp in qList)
+                        {
+                          mapDATA = temp.data() as Map ;
+                          String id = temp.id;
+                          String name = mapDATA['pname'];
+                          String category = mapDATA['pcategory'];
+                          int price = mapDATA['pprice'];
+                          bool fav = mapDATA['pfav'];
+                          String description = mapDATA['pdesc'];
+                          String img = mapDATA['pimg'];
+                          int qty = mapDATA['pqty'];
+                          ProductModel model = ProductModel(uId: id,category: category,name: name,desc: description,price: price,qty: qty,img: img,fav: fav);
+                          cartItems.add(model);
+                        }
+
+                        return
+
+                          Container(
+                            height: 68.h,
+                            child: NotificationListener<OverscrollIndicatorNotification>(
+                              onNotification: (OverscrollIndicatorNotification overscroll) {
+                                overscroll.disallowIndicator();
+                                return true;
+                              },child: ListView.builder(
+                              itemCount: cartItems.length,
+                              itemBuilder: (context, index) {
+                                return CartTile();
+                              },
+                            ),
+                            ),
+                          );
+
+                      }
+
+                      return Center(child: CircularProgressIndicator());
+
+
+                    },
+                  ),
+
+
+
+                SizedBox(height: 1.h,),
+
+
+                GestureDetector(
+                  onTap: () {
+                    Get.toNamed("/myCart");
+                  },
+                  child: Container(height:6.h,width: 100.w,
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(3.w),
+                      color: Colors.black,
+                    ),
+                    alignment: Alignment.center,
+                    child: Text("Next",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 15.sp,color: Colors.white),),
+                  ),
                 ),
-
-
-
-
-
+                SizedBox(height: 1.h,),
               ],
             ),
           ),
@@ -111,7 +115,7 @@ class _CartScreenState extends State<CartScreen> {
   }
 }
 
-Widget CartTile()
+Widget CartTile({img,title,desc,qty,price})
 {
   return Container(height: 14.h,width: 100.w,
       margin: EdgeInsets.symmetric(vertical: 1.h),

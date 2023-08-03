@@ -11,7 +11,7 @@ class FirebaseHelper
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  String uniqueId = "";
+  String? uniqueId ;
 
 //==========================================================================
 // =====================   Login  =========================================
@@ -31,7 +31,7 @@ class FirebaseHelper
       'email':user!.email,
       'name':user.displayName,
       'photo':user.photoURL,
-      uniqueId:user.uid
+      'uniqueId':user.uid
 
     };
 
@@ -105,6 +105,7 @@ class FirebaseHelper
 
   void addToCart(ProductModel model)
   {
+
     print("unique ID $uniqueId ===========");
     firestore.collection("ConsumerDatabase").doc(uniqueId).collection("Cart").add(
         {
@@ -118,6 +119,11 @@ class FirebaseHelper
         }
     );
 
+  }
+
+  Stream<QuerySnapshot<Map<String, dynamic>>> readCartItems()
+  {
+    return firestore.collection("ConsumerDatabase").doc(uniqueId).collection("Cart").snapshots();
   }
 
 }
