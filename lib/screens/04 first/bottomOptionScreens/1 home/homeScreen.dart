@@ -25,12 +25,9 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             children: [
               Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Icon(
-                    Icons.grid_view_rounded,
-                    size: 25.sp,
-                  ),
+
                   CircleAvatar(
                     radius: 2.5.h,
                     backgroundImage:

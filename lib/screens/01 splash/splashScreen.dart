@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../utils/firebase_helper.dart';
+
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
 
@@ -11,11 +13,22 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen> {
 
+  bool userStatus = false;
+  @override
+  void initState() {
+    super.initState();
+
+    userStatus = FirebaseHelper.firebaseHelper.check_user();
+  }
+
 
   @override
   Widget build(BuildContext context) {
 
-    Future.delayed(Duration(seconds: 2),() => Get.offAllNamed("/signIn"),);
+    Future.delayed(Duration(seconds: 3),() =>
+    userStatus == false
+        ? Get.offAllNamed("/signIn")
+        : Get.offAllNamed("/first"));
 
     return SafeArea(
       child: Scaffold(

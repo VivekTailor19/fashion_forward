@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fashion_forward/model/productModel.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -10,6 +11,8 @@ class FirebaseHelper
   FirebaseAuth auth = FirebaseAuth.instance;
   FirebaseFirestore firestore = FirebaseFirestore.instance;
 
+  String uniqueId = "";
+
 //==========================================================================
 // =====================   Login  =========================================
 //==========================================================================
@@ -18,6 +21,20 @@ class FirebaseHelper
   {
     User? user=auth.currentUser;
     return user!=null;
+  }
+
+  Map<String, String?> readUser()
+  {
+    User? user = auth.currentUser;
+
+    return {
+      'email':user!.email,
+      'name':user.displayName,
+      'photo':user.photoURL,
+      uniqueId:user.uid
+
+    };
+
   }
 
 
@@ -61,6 +78,8 @@ class FirebaseHelper
   }
 
 
+
+
 //  --------------------------    SignOut   --------------------------------------------
 
   void accountLogOut()
@@ -81,6 +100,25 @@ class FirebaseHelper
   }
 
 
+//========================================================================================
+// ===============================  Cart ===================================================
+
+  void addToCart(ProductModel model)
+  {
+    print("unique ID $uniqueId ===========");
+    firestore.collection("ConsumerDatabase").doc(uniqueId).collection("Cart").add(
+        {
+          "pname": model.name,
+          "pprice": model.price,
+          "pdesc":model.desc,
+          "pimg":model.img,
+          "pcategory":model.category,
+          "pfav":model.fav,
+          "pqty":model.qty
+        }
+    );
+
+  }
 
 }
 

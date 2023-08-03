@@ -51,16 +51,7 @@ class _Success_LoginScreenState extends State<Success_LoginScreen> {
                     decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.h),color: Color(0xff000000)),),
                 ),
 
-                Row(mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text("To SignOut from this Account ? ",style: TextStyle(fontWeight: FontWeight.w200,fontSize: 12.sp),),
 
-                    TextButton(onPressed: () {
-                      FirebaseHelper.firebaseHelper.accountLogOut();
-                      Get.offAllNamed("/signIn");
-                    }, child: Text("Sign Out",style: TextStyle(color: Colors.blue,fontWeight: FontWeight.w400,fontSize: 14.sp),))
-                  ],
-                )
 
 
               ],

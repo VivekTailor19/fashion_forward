@@ -1,6 +1,6 @@
 # fashion_forward
 
-Ecommerce App for Users
+fashion_forward app is eCommerce App for Users
 
 ## Getting Started
 

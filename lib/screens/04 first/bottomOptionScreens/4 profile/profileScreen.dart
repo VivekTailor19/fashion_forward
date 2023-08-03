@@ -1,6 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
+
+import '../../../../utils/firebase_helper.dart';
+import '../../first/firstController.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -10,19 +15,73 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+
+  FirstController f_control = Get.put(FirstController());
+  Map mapData = {};
+  @override
+  void initState() {
+    super.initState();
+    mapData = FirebaseHelper.firebaseHelper.readUser();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(left: 3.w, right: 3.w, top: 2.h),
       child: Column(
         children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.end,
+          Row(mainAxisAlignment: MainAxisAlignment.end,
             children: [
-              Icon(
-                Icons.settings,
-                size: 22.sp,
-              )
+              Container(height: 20.sp,
+                child: IconButton(icon: Icon(
+                  Icons.logout_rounded,
+                  size: 22.sp,
+                ),onPressed: () {
+
+                  Get.defaultDialog(title: "",
+                      content: Column(
+                        children: [
+                          Stack(
+                            children: [
+                              Align(alignment: Alignment.center,
+                                child: CircleAvatar(radius: 3.5.h,
+                                  child: Icon(Icons.credit_card,color: Colors.white,size: 25.sp,),
+                                  backgroundColor: Colors.black,),
+                              ),
+
+                              Align(alignment:Alignment(0.15,0),
+                                child: CircleAvatar(radius: 1.h,backgroundColor: Colors.green,
+                                  child: Icon(Icons.done_rounded,color: Colors.white,size: 10.sp,),
+                                ),
+                              )
+
+
+                            ],
+                          ),
+                          SizedBox(height: 2.h,),
+                          Text("Ecommerce Admin App !",style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.w500),textAlign: TextAlign.center,),
+                          Text("Are you sure to signout through this Account ?",style: TextStyle(fontWeight: FontWeight.w300,fontSize: 12.sp),textAlign: TextAlign.center,),
+                          GestureDetector(
+                            onTap:() async {
+
+                              f_control.bottomIndex.value = 0;
+                              FirebaseHelper.firebaseHelper.accountLogOut();
+                              Get.offAllNamed("/signIn");
+                            },
+                            child: Container(height:5.h,width: 55.w,
+                              alignment: Alignment.center,
+                              margin: EdgeInsets.symmetric(vertical: 2.h),
+                              decoration: BoxDecoration(borderRadius: BorderRadius.circular(2.5.h),
+                                  color: Colors.black),
+                              child: Text("Sure",style: TextStyle(color: Colors.white,fontWeight: FontWeight.w500,fontSize: 14.sp),),
+                            ),
+                          )
+                        ],
+                      )
+                  );
+
+                },),
+              ),
             ],
           ),
 

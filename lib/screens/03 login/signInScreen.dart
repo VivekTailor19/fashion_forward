@@ -123,10 +123,9 @@ class _SignInScreenState extends State<SignInScreen> {
                   children: [
                     Text("Have an Account ? ",style: TextStyle(fontWeight: FontWeight.w300),),
                     SizedBox(width: 5.w,),
-                    GestureDetector(
+                    InkWell(
                         onTap: () async {
                           await FirebaseHelper.firebaseHelper.googleSignIn();
-
                           Get.offAllNamed("/successLogin");
                         },
                         child: CircleAvatar(radius:2.h,

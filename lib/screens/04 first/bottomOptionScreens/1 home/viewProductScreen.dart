@@ -1,8 +1,11 @@
+import 'package:fashion_forward/screens/04%20first/bottomOptionScreens/1%20home/homeController.dart';
+import 'package:fashion_forward/utils/firebase_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../model/productModel.dart';
+import '../../first/firstController.dart';
 
 class ViewProductScreen extends StatefulWidget {
   const ViewProductScreen({super.key});
@@ -19,7 +22,13 @@ class _ViewProductScreenState extends State<ViewProductScreen> {
   void initState() {
     super.initState();
     model = Get.arguments;
+    model!.qty = 1;
   }
+
+  HomeController h_control = Get.put(HomeController());
+  FirstController f_control = Get.put(FirstController());
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +57,7 @@ class _ViewProductScreenState extends State<ViewProductScreen> {
                 decoration: BoxDecoration(borderRadius: BorderRadius.circular(5.w),
                 color: Color(0xfff3f4f6),
                 image: DecorationImage(
-                  image: NetworkImage("https://media.istockphoto.com/id/1254508881/photo/woman-holding-sale-shopping-bags-consumerism-shopping-lifestyle-concept.jpg?s=612x612&w=0&k=20&c=wuS3z6nPQkMM3_wIoO67qQXP-hfXkxlBc2sedwh-hxc="),
+                  image: NetworkImage("${model!.img}"),
                       fit: BoxFit.cover,opacity: 50,
                 )
                 ),
@@ -61,8 +70,8 @@ class _ViewProductScreenState extends State<ViewProductScreen> {
                     Column(mainAxisAlignment: MainAxisAlignment.spaceAround,
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("ON EAR HeadPhone",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16.sp),),
-                        Text("Beats Solo3 Wireless Kulak",style: TextStyle(fontWeight: FontWeight.w300,fontSize: 11.sp),),
+                        Text("${model!.name}",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16.sp),),
+                        Text("${model!.desc}",style: TextStyle(fontWeight: FontWeight.w300,fontSize: 11.sp),),
                       ],
                     ),
 
@@ -73,20 +82,28 @@ class _ViewProductScreenState extends State<ViewProductScreen> {
                       alignment: Alignment.center,
                       child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: [
+
                           InkWell(
                             onTap: () {
-
+                              if(h_control.cartCount.value >1)
+                                {
+                                  h_control.cartCount.value--;
+                                }
                             },
                             child: Container(height:12.sp,width: 12.sp,alignment: Alignment.center,
                                child: Icon(Icons.remove_rounded,size: 12.sp,),
                             ),
                           ),
-                          Container(height:12.sp,alignment: Alignment.center,
-                             child: Text("100",style: TextStyle(fontSize: 13.sp,fontWeight: FontWeight.w400),),
+
+                          Obx(
+                            () =>  Container(height:12.sp,alignment: Alignment.center,
+                               child: Text("${h_control.cartCount.value}",style: TextStyle(fontSize: 13.sp,fontWeight: FontWeight.w400),),
+                            ),
                           ),
+
                           InkWell(
                             onTap: () {
-
+                              h_control.cartCount.value++;
                             },
                             child: Container(height:12.sp,width: 12.sp,alignment: Alignment.center,
                               child: Icon(Icons.add_rounded,size: 12.sp,),
@@ -107,10 +124,12 @@ class _ViewProductScreenState extends State<ViewProductScreen> {
                 padding:  EdgeInsets.symmetric(vertical: 1.5.h),
                 child: Text("Description",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 16.sp),),
               ),
-              Text("An ecommerce app—sometimes referred to as a mobile commerce app—is a piece of software that allows customers to browse and purchase items from an online store.Mobile commerce apps are beneficial both for business owners and their customers. Brands can better engage their customers in a dedicated space and customers can personalize and control their experience. And thanks to platforms like Shopify and Ecwid by Lightspeed, the mobile app development process can be pretty painless, too.  ",
+              Text("An ecommerce app—sometimes referred to as a mobile commerce app—is a piece of software that allows customers to browse and purchase items from an online store.Mobile commerce apps are beneficial both for business owners and their customers. Brands can better engage their customers in a dedicated space and customers can personalize and control their experience.   ",
                   style: TextStyle(fontWeight: FontWeight.w300,fontSize: 11.5.sp),),
 
-              SizedBox(height: 1.h,),
+              SizedBox(height: 2.h,),
+              Obx(() =>  Text("\$ ${model!.price! * h_control.cartCount.value}",style: TextStyle(fontWeight: FontWeight.w600,fontSize: 18.sp),)),
+              SizedBox(height: 2.h,),
 
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -123,17 +142,40 @@ class _ViewProductScreenState extends State<ViewProductScreen> {
                     ),
                     child: Icon(Icons.favorite_outline_rounded,size: 18.sp,),
                   ),
-                  Container(height: 6.h,width: 40.w,alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(4.w),
-                      color: Colors.black
+
+
+                  GestureDetector(
+                    onTap: () {
+
+                      ProductModel tempModel = ProductModel(
+                        img: model!.img,
+                        price: model!.price,
+                        name: model!.name,
+                        category: model!.category,
+                        fav: model!.fav,
+                        desc: model!.desc,
+                        qty: h_control.cartCount.value,
+                        uId: model!.uId
+                      );
+
+                      FirebaseHelper.firebaseHelper.addToCart(tempModel);
+                      f_control.bottomIndex.value = 0;
+                      //h_control.cartCount.value = 1 ;
+                      Get.back();
+
+                    },
+                    child: Container(height: 6.h,width: 40.w,alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(4.w),
+                        color: Colors.black
+                      ),
+                      child: Row(mainAxisAlignment: MainAxisAlignment.center,textBaseline: TextBaseline.alphabetic,
+                        children: [
+                        Icon(Icons.card_travel_rounded,color: Colors.white,size: 16.sp,),
+                        SizedBox(width: 3.w,),
+                        Text("Add to cart",style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600,fontSize: 13.5.sp),)
+                      ],)
                     ),
-                    child: Row(mainAxisAlignment: MainAxisAlignment.center,textBaseline: TextBaseline.alphabetic,
-                      children: [
-                      Icon(Icons.card_travel_rounded,color: Colors.white,size: 16.sp,),
-                      SizedBox(width: 3.w,),
-                      Text("Add to cart",style: TextStyle(color: Colors.white,fontWeight: FontWeight.w600,fontSize: 13.5.sp),)
-                    ],)
                   )
 
                 ],
