@@ -105,7 +105,6 @@ class FirebaseHelper
 
   void addToCart(ProductModel model)
   {
-
     print("unique ID $uniqueId ===========");
     firestore.collection("ConsumerDatabase").doc(uniqueId).collection("Cart").add(
         {
@@ -124,6 +123,22 @@ class FirebaseHelper
   Stream<QuerySnapshot<Map<String, dynamic>>> readCartItems()
   {
     return firestore.collection("ConsumerDatabase").doc(uniqueId).collection("Cart").snapshots();
+  }
+
+  void updateMyCart(ProductModel model)
+  {
+
+    firestore.collection("ConsumerDatabase").doc(uniqueId).collection("Cart").doc(model.uId).set(
+       {
+          "pname": model.name,
+          "pprice": model.price,
+          "pdesc":model.desc,
+          "pimg":model.img,
+          "pcategory":model.category,
+          "pfav":model.fav,
+          "pqty":model.qty,
+       });
+
   }
 
 }
