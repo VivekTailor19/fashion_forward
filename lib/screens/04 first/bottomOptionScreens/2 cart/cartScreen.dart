@@ -5,6 +5,7 @@ import 'package:sizer/sizer.dart';
 
 import '../../../../model/productModel.dart';
 import '../../../../utils/firebase_helper.dart';
+import 'cartController.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -15,8 +16,7 @@ class CartScreen extends StatefulWidget {
 
 class _CartScreenState extends State<CartScreen> {
 
-
-
+  CartController c_control = Get.put(CartController());
 
   @override
   Widget build(BuildContext context) {
@@ -43,6 +43,9 @@ class _CartScreenState extends State<CartScreen> {
 
                       else if(snapshot.hasData)
                       {
+
+                        c_control.subtotal.value = 0;
+
                         QuerySnapshot querySnapshot = snapshot.data!;
                         List<QueryDocumentSnapshot> qList = querySnapshot.docs;
 
@@ -62,6 +65,9 @@ class _CartScreenState extends State<CartScreen> {
                           int qty = mapDATA['pqty'];
                           ProductModel model = ProductModel(uId: id,category: category,name: name,desc: description,price: price,qty: qty,img: img,fav: fav);
                           cartItems.add(model);
+
+                          c_control.subtotal.value = c_control.subtotal.value + (price*qty);
+                          c_control.total.value = c_control.subtotal.value + c_control.shipping;
                         }
 
                         return
@@ -123,17 +129,23 @@ class _CartScreenState extends State<CartScreen> {
                                               Row(mainAxisAlignment: MainAxisAlignment.end,
                                                 children: [
                                                   IconButton(onPressed: () {
-
+                                                    FirebaseHelper.firebaseHelper.deleteFromCart("${cartItems[index].uId}");
                                                   }, icon: Icon(Icons.close_rounded,size: 15.sp,),),
                                                 ],
                                               ),
-                                              Text("\$ ${cartItems[index].price}",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 13.sp,wordSpacing: -1,letterSpacing: -0.5),),
+                                              Text("\$ ${cartItems[index].price! * cartItems[index].qty!}",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 13.sp,wordSpacing: -1,letterSpacing: -0.5),),
                                               Row(mainAxisAlignment: MainAxisAlignment.spaceAround,
                                                 children: [
                                                   InkWell(
                                                     onTap: () {
 
-                                                      int? tempQty = cartItems[index].qty;
+
+                                                      int tempQty = cartItems[index].qty!;
+
+                                                      if(tempQty > 1)
+                                                        {
+                                                          tempQty--;
+                                                        }
 
                                                       ProductModel model = ProductModel(
                                                         name: cartItems[index].name,
@@ -155,6 +167,21 @@ class _CartScreenState extends State<CartScreen> {
                                                   SizedBox(width: 3.w,),
                                                   InkWell(
                                                     onTap: () {
+
+                                                      int tempQty = cartItems[index].qty!;
+                                                      tempQty++;
+
+                                                      ProductModel model = ProductModel(
+                                                          name: cartItems[index].name,
+                                                          price: cartItems[index].price,
+                                                          qty: tempQty,
+                                                          category: cartItems[index].category,
+                                                          img: cartItems[index].img,
+                                                          desc: cartItems[index].desc,
+                                                          fav: cartItems[index].fav,
+                                                          uId: cartItems[index].uId
+                                                      );
+                                                      FirebaseHelper.firebaseHelper.updateMyCart(model);
 
                                                     },
                                                     child: Container(height:4.h.sp,width: 4.h,alignment: Alignment.center,
@@ -191,7 +218,7 @@ class _CartScreenState extends State<CartScreen> {
 
 
 
-                SizedBox(height: 1.h,),
+                SizedBox(height: 0.5.h,),
 
 
                 GestureDetector(

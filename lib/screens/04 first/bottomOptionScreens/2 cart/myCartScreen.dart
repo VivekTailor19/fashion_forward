@@ -1,8 +1,14 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:fashion_forward/payment/razorpay.dart';
+import 'package:fashion_forward/screens/04%20first/bottomOptionScreens/2%20cart/cartController.dart';
 import 'package:fashion_forward/screens/04%20first/bottomOptionScreens/2%20cart/cartScreen.dart';
 import 'package:fashion_forward/screens/04%20first/first/firstController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sizer/sizer.dart';
+
+import '../../../../model/productModel.dart';
+import '../../../../utils/firebase_helper.dart';
 
 class MyCartScreen extends StatefulWidget {
   const MyCartScreen({super.key});
@@ -14,6 +20,7 @@ class MyCartScreen extends StatefulWidget {
 class _MyCartScreenState extends State<MyCartScreen> {
 
   FirstController f_control = Get.put(FirstController());
+  CartController c_control = Get.put(CartController());
 
   @override
   Widget build(BuildContext context) {
@@ -46,20 +53,108 @@ class _MyCartScreenState extends State<MyCartScreen> {
                   Text("My Order",style: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.w700),),
                   SizedBox(height: 1.h,),
 
-                  Container(
-                    height: 54.h,
-                    child: NotificationListener<OverscrollIndicatorNotification>(
-                      onNotification: (OverscrollIndicatorNotification overscroll) {
-                        overscroll.disallowIndicator();
-                        return true;
-                      },child: ListView.builder(
-                        itemCount: 5,
-                        itemBuilder: (context, index) {
-                        return CartTile();
-                      },
-                      ),
-                    ),
+                  StreamBuilder(
+                    stream: FirebaseHelper.firebaseHelper.readCartItems(),
+                    builder: (context, snapshot) {
+                      if(snapshot.hasError)
+                      {
+                        Center(child: Text("${snapshot.error}"));
+                      }
+
+                      else if(snapshot.hasData)
+                      {
+
+                        QuerySnapshot querySnapshot = snapshot.data!;
+                        List<QueryDocumentSnapshot> qList = querySnapshot.docs;
+
+                        Map mapDATA = {};
+                        List<ProductModel> cartItems = [];
+
+                        for(var temp in qList)
+                        {
+                          mapDATA = temp.data() as Map ;
+                          String id = temp.id;
+                          String name = mapDATA['pname'];
+                          String category = mapDATA['pcategory'];
+                          int price = mapDATA['pprice'];
+                          bool fav = mapDATA['pfav'];
+                          String description = mapDATA['pdesc'];
+                          String img = mapDATA['pimg'];
+                          int qty = mapDATA['pqty'];
+                          ProductModel model = ProductModel(uId: id,category: category,name: name,desc: description,price: price,qty: qty,img: img,fav: fav);
+                          cartItems.add(model);
+
+
+                        }
+
+                        return Container(
+                            height: 50.h,
+                            child: NotificationListener<OverscrollIndicatorNotification>(
+                              onNotification: (OverscrollIndicatorNotification overscroll) {
+                                overscroll.disallowIndicator();
+                                return true;
+                              },child: ListView.builder(
+                              itemCount: cartItems.length,
+                              itemBuilder: (context, index) {
+                                return Container(height: 15.h,width: 100.w,
+                                    margin: EdgeInsets.symmetric(vertical: 1.5.h),
+                                    padding: EdgeInsets.symmetric(horizontal: 2.w),
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(3.w),
+                                        //color: Colors.amberAccent.shade100,
+                                        color: Colors.white,
+                                        boxShadow: [BoxShadow(color: Color(0xffE5E5E5),offset: Offset(0,5),blurRadius: 8,)]
+                                    ),
+
+                                    child: Row(
+                                      children:[
+                                        Container(
+                                          height: 12.h,width: 11.h,alignment: Alignment.center,
+                                          decoration: BoxDecoration(
+                                              borderRadius: BorderRadius.circular(4.w),
+
+                                              image:DecorationImage(
+                                                  image: NetworkImage("${cartItems[index].img}"),fit: BoxFit.contain
+                                              )
+
+                                          ),
+                                        ),
+                                        SizedBox(width: 2.w,),
+                                        SizedBox(width: 35.w,
+                                          child: Column(
+
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              SizedBox(height: 1.h,),
+                                              Text("${cartItems[index].name}",style: TextStyle(fontWeight: FontWeight.w500,fontSize: 14.sp),),
+                                              SizedBox(height: 0.5.h,),
+                                              Text("${cartItems[index].desc}",style: TextStyle(fontWeight: FontWeight.w200,fontSize: 11.sp),maxLines: 2,),
+                                              Spacer(),
+
+                                              Text("Quantity: ${cartItems[index].qty}",style: TextStyle(fontWeight: FontWeight.w300,fontSize: 12.sp),),
+                                              SizedBox(height: 1.h,)
+                                            ],
+                                          ),
+                                        ),
+                                        Spacer(),
+                                        Text("\$ ${cartItems[index].price! * cartItems[index].qty!}",style: TextStyle(fontWeight: FontWeight.w700,fontSize: 13.sp,wordSpacing: -1,letterSpacing: -0.5),)
+                                      ],
+                                    )
+                                );
+
+                              },
+                            ),
+                            ),
+                          );
+
+                      }
+
+                      return Center(child: CircularProgressIndicator());
+
+
+                    },
                   ),
+
                   SizedBox(height: 1.h,),
 
                   Container(height: 18.5.h,width: 100.w,
@@ -73,11 +168,11 @@ class _MyCartScreenState extends State<MyCartScreen> {
 
 
                   child: Column(children: [
-                    MoneyCartTile(title: "Subtotal",money: "483"),
+                    MoneyCartTile(title: "Subtotal",money: "${c_control.subtotal.value}"),
                     Divider(color: Colors.black12,height: 2.h,thickness: 1.1),
-                    MoneyCartTile(title: "Shipping",money: "17"),
+                    MoneyCartTile(title: "Shipping",money: "${c_control.shipping}"),
                     Divider(color: Colors.black12,height: 2.h,thickness: 1.1),
-                    MoneyCartTile(title: "BagTotal",money: "500"),
+                    MoneyCartTile(title: "BagTotal",money: "${c_control.total.value}"),
                   ],),),
                   SizedBox(height: 1.5.h,),
 
@@ -109,14 +204,15 @@ class _MyCartScreenState extends State<MyCartScreen> {
                             GestureDetector(
                                 onTap:(){
                                   f_control.bottomIndex.value = 0;
-                                  Get.offAllNamed("/first");
+                                  PaymentHelper.payment.setPayment(10);
+                                 // Get.offAllNamed("/first");
                                 },
                               child: Container(height:5.h,width: 55.w,
                               alignment: Alignment.center,
                               margin: EdgeInsets.symmetric(vertical: 2.h),
                               decoration: BoxDecoration(borderRadius: BorderRadius.circular(2.5.h),
                               color: Colors.black),
-                              child: Text("continue Shopping",style: TextStyle(color: Colors.white,fontWeight: FontWeight.w500,fontSize: 14.sp),),
+                              child: Text("Go for Payment",style: TextStyle(color: Colors.white,fontWeight: FontWeight.w500,fontSize: 14.sp),),
                               ),
                             )
                           ],

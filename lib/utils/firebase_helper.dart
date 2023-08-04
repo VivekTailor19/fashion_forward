@@ -141,5 +141,11 @@ class FirebaseHelper
 
   }
 
+  void deleteFromCart(String id)
+  {
+    firestore.collection("ConsumerDatabase").doc(uniqueId).collection("Cart").doc(id).delete();
+  }
+
+
 }
 

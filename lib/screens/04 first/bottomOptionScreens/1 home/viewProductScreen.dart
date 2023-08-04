@@ -37,7 +37,9 @@ class _ViewProductScreenState extends State<ViewProductScreen> {
         backgroundColor: Colors.white,
 
         appBar: AppBar(backgroundColor: Colors.white,elevation: 0,
-          leading: IconButton(icon: Icon(Icons.arrow_back_rounded,size: 22.sp,color: Colors.black,),onPressed: (){
+          leading: IconButton(icon: Icon(Icons.arrow_back_rounded,size: 22.sp,color: Colors.black,),
+            onPressed: (){
+            h_control.cartCount.value = 1;
             Get.back();
           },),
 
