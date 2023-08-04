@@ -13,15 +13,15 @@ class PaymentHelper {
     razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
 
     var options = {
-      'key': 'rzp_test_JSGLLq4YKyrpg3',
+      'key': 'razorPayKey',
       'amount': "$total", //in the smallest currency sub-unit.
-      'name': 'Acme Corp.',
+      'name': 'Apna First Earning .ltd',
       'order_id': 'order_EMBFqjDHEEn80l', // Generate order_id using Orders API
       'description': 'Fine T-Shirt',
       'timeout': 60, // in seconds
       'prefill': {
-        'contact': '9106619178',
-        'email': 'tailorvivekgec19@example.com'
+        'contact': '1245789865',
+        'email': 'tailorvivek012@gmail.com'
       }
     };
 
