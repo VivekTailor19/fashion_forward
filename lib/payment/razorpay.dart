@@ -13,9 +13,16 @@ class PaymentHelper {
     razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
 
     var options = {
-      'callback_url': 'https://your-server/callback_url',
       'key': 'rzp_test_JSGLLq4YKyrpg3',
-      'amount': '$total',
+      'amount': "$total", //in the smallest currency sub-unit.
+      'name': 'Acme Corp.',
+      'order_id': 'order_EMBFqjDHEEn80l', // Generate order_id using Orders API
+      'description': 'Fine T-Shirt',
+      'timeout': 60, // in seconds
+      'prefill': {
+        'contact': '9106619178',
+        'email': 'tailorvivekgec19@example.com'
+      }
     };
 
     razorpay.open(options);
