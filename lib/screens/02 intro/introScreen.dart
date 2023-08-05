@@ -47,6 +47,8 @@ class _IntroScreenState extends State<IntroScreen> {
 
               Obx(() =>  Text("${i_control.introList[i_control.currentIndex.value].heading}",style: TextStyle(fontWeight: FontWeight.w800,fontSize: 25.sp),maxLines: 2,textAlign: TextAlign.left,)),
 
+              SizedBox(height: 2.h,),
+
 
               Padding(
                 padding:  EdgeInsets.symmetric(vertical: 2.h),
@@ -56,14 +58,12 @@ class _IntroScreenState extends State<IntroScreen> {
               Spacer(),
               Row(mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  SmoothPageIndicator(
 
-                    controller: i_control.controller,
-                    count: 3,
-                    axisDirection: Axis.horizontal,
-                    effect: ExpandingDotsEffect(
-                      radius: 1.h,
-                      spacing: 3.w,
+                  Obx(
+                    () =>  AnimatedSmoothIndicator(
+                      activeIndex: i_control.currentIndex.value,
+                      count: 3,
+                      effect: ExpandingDotsEffect(),
                     ),
                   ),
 
