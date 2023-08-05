@@ -23,9 +23,9 @@ Future<void> main() async {
       builder: (context, orientation, deviceType) =>  GetMaterialApp(
         debugShowCheckedModeBanner: false,
         routes:{
-          // "/":(p0) => IntroScreen(),
+           "/":(p0) => IntroScreen(),
           //
-           "/":(p0) => SplashScreen(),
+         //  "/":(p0) => SplashScreen(),
           "/intro":(p0) => IntroScreen(),
           "/signIn":(p0) => SignInScreen(),
           "/signUp":(p0) => SignUpScreen(),
