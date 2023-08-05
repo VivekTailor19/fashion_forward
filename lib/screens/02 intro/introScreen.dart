@@ -15,11 +15,7 @@ class _IntroScreenState extends State<IntroScreen> {
 
   IntroScreenController i_control = Get.put(IntroScreenController());
 
-  @override
-  void initState() {
-    super.initState();
-    i_control.updateController();
-  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +31,6 @@ class _IntroScreenState extends State<IntroScreen> {
                   height: 50.h,
                   width: 100.w,
                   decoration: BoxDecoration(
-                    color: Colors.amber,
                     image: DecorationImage(image: AssetImage("${i_control.introList[i_control.currentIndex.value].img}"),
                     fit: BoxFit.fill),
                     borderRadius: BorderRadius.circular(8.w),
@@ -69,9 +64,18 @@ class _IntroScreenState extends State<IntroScreen> {
 
                   GestureDetector(
                     onTap: () {
-                      i_control.currentIndex.value++;
+
+                      if(i_control.currentIndex.value <2)
+                      {
+                        i_control.currentIndex.value++;
+                      }
+                      else
+                        {
+                          Get.offAllNamed("/signIn");
+                        }
+
                       print("${i_control.currentIndex.value}");
-                      i_control.updateController();
+
                     },
                     child: Container(height: 50,width: 50,
                     decoration: BoxDecoration(shape: BoxShape.circle,color: Colors.black,),

@@ -13,12 +13,8 @@ class IntroScreenController extends GetxController
 
   RxInt currentIndex = 0.obs;
 
-  PageController controller = PageController();
 
-  void updateController()
-  {
-    controller = PageController(initialPage: currentIndex.value);
-  }
+
 
 
 }
