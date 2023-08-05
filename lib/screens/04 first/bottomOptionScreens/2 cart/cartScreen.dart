@@ -23,15 +23,15 @@ class _CartScreenState extends State<CartScreen> {
     return
       Column(
         children: [
-         SizedBox(height: 5.h,),
-
+         SizedBox(height: 4.h,),
           Padding(
             padding:  EdgeInsets.symmetric(horizontal: 5.w,vertical: 1.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text("My Cart",style: TextStyle(fontSize: 18.sp,fontWeight: FontWeight.w700),),
-                SizedBox(height: 1.h,),
+
+                SizedBox(height: 0.5.h,),
 
                 StreamBuilder(
                     stream: FirebaseHelper.firebaseHelper.readCartItems(),

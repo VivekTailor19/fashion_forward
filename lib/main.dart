@@ -1,4 +1,5 @@
 import 'package:fashion_forward/screens/01%20splash/splashScreen.dart';
+import 'package:fashion_forward/screens/02%20intro/introScreen.dart';
 import 'package:fashion_forward/screens/04%20first/bottomOptionScreens/1%20home/viewProductScreen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -22,9 +23,10 @@ Future<void> main() async {
       builder: (context, orientation, deviceType) =>  GetMaterialApp(
         debugShowCheckedModeBanner: false,
         routes:{
-           "/":(p0) => SplashScreen(),
+          // "/":(p0) => IntroScreen(),
           //
-          // "/":(p0) => FirstScreen(),
+           "/":(p0) => SplashScreen(),
+          "/intro":(p0) => IntroScreen(),
           "/signIn":(p0) => SignInScreen(),
           "/signUp":(p0) => SignUpScreen(),
           "/successLogin":(p0) => Success_LoginScreen(),
