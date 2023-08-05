@@ -84,8 +84,8 @@ class _MyCartScreenState extends State<MyCartScreen> {
                           ProductModel model = ProductModel(uId: id,category: category,name: name,desc: description,price: price,qty: qty,img: img,fav: fav);
                           cartItems.add(model);
 
-
                         }
+                        c_control.insetTempCartCollection(cartItems);
 
                         return Container(
                             height: 50.h,
@@ -204,8 +204,11 @@ class _MyCartScreenState extends State<MyCartScreen> {
                             GestureDetector(
                                 onTap:(){
                                   f_control.bottomIndex.value = 0;
+                                  Get.offAllNamed("/first");
                                   PaymentHelper.payment.setPayment(10);
-                                 // Get.offAllNamed("/first");
+                                  FirebaseHelper.firebaseHelper.clearCart(c_control.tempList);
+                                  c_control.total.value = 0;
+                                  c_control.shipping = 0;
                                 },
                               child: Container(height:5.h,width: 55.w,
                               alignment: Alignment.center,

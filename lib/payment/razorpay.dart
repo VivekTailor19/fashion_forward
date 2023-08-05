@@ -13,11 +13,11 @@ class PaymentHelper {
     razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handleExternalWallet);
 
     var options = {
-      'key': 'razorPayKey',
+      'key': 'rzp_test_NWrPvHDo1poFSD',
       'amount': "$total", //in the smallest currency sub-unit.
-      'name': 'Apna First Earning .ltd',
+      'name': 'Billionore.ltd',
       'order_id': 'order_EMBFqjDHEEn80l', // Generate order_id using Orders API
-      'description': 'Fine T-Shirt',
+      'description': 'Buy a Branded Product',
       'timeout': 60, // in seconds
       'prefill': {
         'contact': '1245789865',

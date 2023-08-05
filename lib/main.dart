@@ -12,12 +12,15 @@ import 'screens/03 login/signUpScreen.dart';
 import 'screens/03 login/successScreen.dart';
 import 'screens/04 first/bottomOptionScreens/2 cart/myCartScreen.dart';
 import 'screens/04 first/first/firstScreen.dart';
+import 'services/notification_helper.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+  NotificationHelper.notifyService.initNotification();
+
   runApp(
     Sizer(
       builder: (context, orientation, deviceType) =>  GetMaterialApp(

@@ -1,4 +1,5 @@
 import 'package:fashion_forward/screens/04%20first/bottomOptionScreens/1%20home/homeController.dart';
+import 'package:fashion_forward/services/notification_helper.dart';
 import 'package:fashion_forward/utils/firebase_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -161,6 +162,9 @@ class _ViewProductScreenState extends State<ViewProductScreen> {
                       );
 
                       FirebaseHelper.firebaseHelper.addToCart(tempModel);
+                      NotificationHelper.notifyService.notificationProductAddToCart(
+                          title: "Add In Cart",
+                          information: "Thanks for shopping of the ${tempModel.name}...");
                       f_control.bottomIndex.value = 0;
                       //h_control.cartCount.value = 1 ;
                       Get.back();

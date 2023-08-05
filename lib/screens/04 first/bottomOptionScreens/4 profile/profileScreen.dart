@@ -54,8 +54,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                   child: Icon(Icons.done_rounded,color: Colors.white,size: 10.sp,),
                                 ),
                               )
-
-
+                              
                             ],
                           ),
                           SizedBox(height: 2.h,),

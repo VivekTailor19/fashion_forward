@@ -146,6 +146,15 @@ class FirebaseHelper
     firestore.collection("ConsumerDatabase").doc(uniqueId).collection("Cart").doc(id).delete();
   }
 
+  void clearCart(List<ProductModel> productLists)
+  {
+    for(int i = 0 ; i<productLists.length ;  i++)
+      {
+        firestore.collection("ConsumerDatabase").doc(uniqueId).collection("Cart").doc(productLists[i].uId).delete();
+      }
+
+  }
+
 
 }
 
