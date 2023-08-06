@@ -1,6 +1,6 @@
 # fashion_forward
 ### fashion_forward app is eCommerce App for Users
- 
+The products show in the app, are comes from the admin app. The admin app is ## ecommerce_admin_app.
 ## Getting Started
 
 This project is a starting point for a Flutter application.
