@@ -1,7 +1,6 @@
 # fashion_forward
-
-fashion_forward app is eCommerce App for Users
-
+### fashion_forward app is eCommerce App for Users
+ 
 ## Getting Started
 
 This project is a starting point for a Flutter application.
