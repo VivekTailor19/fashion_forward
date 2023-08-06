@@ -139,9 +139,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             fontWeight: FontWeight.w500, fontSize: 14.sp),
                       ),
 
-                      Text(
-                          //"$userEmail",
-                        "tailorvivek012@gmail.com",
+                      Text("$userEmail",
                         style: TextStyle(
                             fontWeight: FontWeight.w200, fontSize: 13.sp),
                         maxLines: 2,
