@@ -17,11 +17,19 @@ class ProfileScreen extends StatefulWidget {
 class _ProfileScreenState extends State<ProfileScreen> {
 
   FirstController f_control = Get.put(FirstController());
+
+  String? userImage ;
+  String? userName ;
+  String? userEmail ;
   Map mapData = {};
   @override
   void initState() {
     super.initState();
     mapData = FirebaseHelper.firebaseHelper.readUser();
+
+    userImage = mapData['photo'];
+    userName = mapData['name'];
+    userEmail = mapData['email'];
   }
 
   @override
@@ -58,7 +66,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             ],
                           ),
                           SizedBox(height: 2.h,),
-                          Text("Ecommerce Admin App !",style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.w500),textAlign: TextAlign.center,),
+                          Text("Dear Customer !",style: TextStyle(fontSize: 16.sp,fontWeight: FontWeight.w500),textAlign: TextAlign.center,),
                           Text("Are you sure to signout through this Account ?",style: TextStyle(fontWeight: FontWeight.w300,fontSize: 12.sp),textAlign: TextAlign.center,),
                           GestureDetector(
                             onTap:() async {
@@ -107,10 +115,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(4.w),
-                        image: DecorationImage(
+                        image: userImage != null
+                            ? DecorationImage(
+                            image: NetworkImage(
+                                "$userImage"),
+                            fit: BoxFit.cover)
+                            : DecorationImage(
                             image: NetworkImage(
                                 "https://miro.medium.com/v2/resize:fit:512/1*DubdXbUR4KcrzmAg8wyGXA.png"),
-                            fit: BoxFit.cover)),
+                            fit: BoxFit.cover),
+                    ),
                   ),
                   SizedBox(
                     width: 2.5.w,
@@ -120,13 +134,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     children: [
 
                       Text(
-                        "User PRo 18324",
+                        userName != null ? "$userName" : "User",
                         style: TextStyle(
                             fontWeight: FontWeight.w500, fontSize: 14.sp),
                       ),
 
-                      Text(
-                        "1845.userpro@gmail.com",
+                      Text("$userEmail",
                         style: TextStyle(
                             fontWeight: FontWeight.w200, fontSize: 13.sp),
                         maxLines: 2,
