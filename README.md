@@ -1,6 +1,12 @@
 # fashion_forward
 ### fashion_forward app is eCommerce App for Users
-The products show in the app, are comes from the admin app. The admin app is ## ecommerce_admin_app.
+The products show in the app, are comes from the admin app. The admin app is 
+- [ecommerce_admin_app](https://github.com/VivekTailor19/ecommerce_admin_app)
+
+#### fashion_forward
+User views product. Also user can add product in cart and delete . 
+####The RazorPay Payment feature is also provided in the app. 
+
 ## Getting Started
 
 This project is a starting point for a Flutter application.
