@@ -11,7 +11,7 @@ User views product. Also user can add product in cart and delete . Also when pro
 
 
 https://github.com/VivekTailor19/fashion_forward/assets/119835214/f3e8c2b4-e764-40fe-97d0-d8b296e7ad0a
-
+<p>
 <style>
   .container {
     width: 100%;
@@ -27,7 +27,7 @@ https://github.com/VivekTailor19/fashion_forward/assets/119835214/f3e8c2b4-e764-
 <div class="container">
   <iframe class="video" src="https://raw.githubusercontent.com/VivekTailor19/fashion_forward/master/assets/119835214/f3e8c2b4-e764-40fe-97d0-d8b296e7ad0a" frameborder="0" allowfullscreen></iframe>
 </div>
-
+</p>
 <p>
 <img src = "https://github.com/VivekTailor19/fashion_forward/assets/119835214/14abf7c6-ae7d-4f39-846e-b636673caf92" height = 50% width = 30%>
   
