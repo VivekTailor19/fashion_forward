@@ -5,7 +5,7 @@ The products show in the app, are comes from the admin app. The admin app is
 
 #### fashion_forward
 User can use this app using email id login, or google authentification.
-User views product. Also user can add product in cart and delete . 
+User views product. Also user can add product in cart and delete . Also when product is added in Cart the local notification release.
 #### The RazorPay Payment feature is also provided in the app. 
 
 <p>
